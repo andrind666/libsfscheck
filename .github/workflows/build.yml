@@ -1,0 +1,55 @@
+name: Build libsfscheck
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        abi:
+          - arm64-v8a
+          - armeabi-v7a
+          - x86
+          - x86_64
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r27c
+
+      - name: Configure CMake
+        run: |
+          mkdir build
+          cd build
+
+          cmake ../engine \
+            -G Ninja \
+            -DANDROID_ABI=${{ matrix.abi }} \
+            -DANDROID_PLATFORM=android-24 \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake
+
+      - name: Build
+        run: |
+          cd build
+          ninja
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libsfscheck-${{ matrix.abi }}
+          path: build/*.so

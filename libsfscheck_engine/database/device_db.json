@@ -1,0 +1,11 @@
+{
+    "devices": [
+        {
+            "brand": "Infinix",
+            "model": "X650C",
+            "cpu": "Helio P22",
+            "gpu": "PowerVR GE8320",
+            "ram": "4GB"
+        }
+    ]
+}

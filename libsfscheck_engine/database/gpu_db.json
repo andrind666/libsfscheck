@@ -1,0 +1,7 @@
+{
+    "gpus": [
+        "Adreno 740",
+        "Mali-G57",
+        "PowerVR GE8320"
+    ]
+}

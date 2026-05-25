@@ -36,7 +36,7 @@ jobs:
           mkdir build
           cd build
 
-          cmake ../engine \
+          cmake ../libsfscheck_engine \
             -G Ninja \
             -DANDROID_ABI=${{ matrix.abi }} \
             -DANDROID_PLATFORM=android-24 \
